@@ -235,6 +235,7 @@ class Guest(XMLBuilder):
         self.__osinfo = None
         self._capsinfo = None
         self._domcaps = None
+        self._force_virtio_win_usage = False
 
 
     ######################
@@ -476,6 +477,9 @@ class Guest(XMLBuilder):
             self.os.is_riscv_virt() or
             self.os.is_s390x() or
             self.os.is_pseries()):
+            return True
+
+        if self._force_virtio_win_usage:
             return True
 
         if not os_support:
@@ -754,6 +758,9 @@ class Guest(XMLBuilder):
 
         self._add_implied_controllers()
         self._add_spice_devices()
+
+    def set_force_virtio_win_usage(self, force):
+        self._force_virtio_win_usage = force
 
 
     ########################
