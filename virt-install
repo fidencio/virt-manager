@@ -470,6 +470,11 @@ def set_cli_defaults(options, guest):
     if guest.os.is_container():
         return
 
+    if (options.unattended and
+        guest.osinfo.is_windows() and
+        guest.osinfo.supports_unattended_drivers(guest.os.arch)):
+        guest.set_force_virtio_win_usage(True)
+
     res = guest.osinfo.get_recommended_resources()
     storage = res.get_recommended_storage(guest.os.arch)
     ram = res.get_recommended_ram(guest.os.arch)
